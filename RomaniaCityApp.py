@@ -1,4 +1,4 @@
-
+from SimpleProblemSolvingAgent import SimpleProblemSolvingAgentProgram
 def main():
     file_path = input("Enter the map file location: ")
 
@@ -47,20 +47,46 @@ def main():
         #     print("Thank you for using our app.")
         #     break
 
-    from search import SimpleProblemSolvingAgentProgram
-    from search import greedy_best_first_graph_search
-    from search import astar_search
+
+
+    # /Users/khatera/Downloads/cs534/gp1534/simpleProblemSolvingAgent/romania_map.txt
+    seq = {
+        ('Arad', 'GoZerind'): 'Zerind',
+        ('Arad', 'GoSibiu'): 'Sibiu',
+        ('Arad', 'GoTimisoara'): 'Timisoara',
+        ('Bucharest', 'GoUrziceni'): 'Urziceni',
+        ('Bucharest', 'GoPitesti'): 'Pitesti',
+        ('Bucharest', 'GoGiurgiu'): 'Giurgiu',
+        ('Bucharest', 'GoFagaras'): 'Fagaras',
+        ('Craiova', 'GoDrobeta'): 'Drobeta',
+        ('Craiova', 'GoRimnicu'): 'Rimnicu',
+        ('Craiova', 'GoPitesti'): 'Pitesti',
+        ('Drobeta', 'GoMehadia'): 'Mehadia',
+        ('Eforie', 'GoHirsova'): 'Hirsova',
+        ('Fagaras', 'GoSibiu'): 'Sibiu',
+        ('Hirsova', 'GoUrziceni'): 'Urziceni',
+        ('Iasi', 'GoVaslui'): 'Vaslui',
+        ('Iasi', 'GoNeamti'): 'Neamti',
+        ('Lugoj', 'GoTimisoara'): 'Timisoara',
+        ('Lugoj', 'GoMehadia'): 'Mehadia',
+        ('Oradea', 'GoZerind'): 'Zerind'}
+
+    actions = ['GoZerind', 'GoSibiu', 'GoTimisoara', 'GoUrziceni', 'GoPitesti',
+               'GoGiurgiu', 'GoFagaras', 'GoDrobeta', 'GoRimnicu', 'GoMehadia',
+               'GoHirsova', 'GoVaslui', 'GoNeamti']
+
 
     # User input for start and end cities
-    start_city = input("Enter the start city: ")
+    initial_state = input("Enter the start city: ")
     end_city = input("Enter the end city: ")
 
     # Create a SPSA object
-    agent = SimpleProblemSolvingAgentProgram(start_city, end_city)
+    agent = SimpleProblemSolvingAgentProgram(initial_state, actions)
+    print(agent)
 
     # Perform GBFS and A* searches
     gbfs_result = greedy_best_first_graph_search(agent.romania_map, start_city, end_city)
-    astar_result = astar_search(agent.romania_map, start_city, end_city)
+    astar_result = astar_search(agent.romania_map, initial_state, end_city)
 
     # Output results for GBFS
     print("Search Method: Greedy Best-First Search")
