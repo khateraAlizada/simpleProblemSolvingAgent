@@ -82,91 +82,95 @@ class Problem:
         self.initial = initial
         self.goal = goal
 
-    def actions(self, state):
-        """Return the actions that can be executed in the given
-        state. The result would typically be a list, but if there are
-        many actions, consider yielding them one at a time in an
-        iterator, rather than building them all at once."""
-        if self.state == "Arad":
-            action = {"GoZerind", "GoSibiu", "GoTimisoara"}
-        if self.state == "Bucharest":
-            action = {"GoUrziceni", "GoPitesti", "GoGiurgiu", "GoFagaras"}
-        if self.state == "Craiova":
-            action = {"GoDrobeta", "GoRimnicu", "GoPitesti"}
-        if self.state == "Drobeta":
-            action = {"GoMehadia"}
-        if self.state == "Eforie":
-            action = {"GoHirsova"}
-        if self.state == "Fagaras":
-            action = {"GoSibiu"}
-        if self.state == "Hirsova":
-            action = {"GoUrziceni"}
-        if self.state == "Iasi":
-            action = {"GoVaslui", "GoNeamti"}
-        if self.state == "Lugoj":
-            action = {"GoTimisoara", "GoMehadia"}
-        if self.state == "Oradea":
-            action = {"GoZerind", "GoSibiu"}
-        if self.state == "Pitesti":
-            action = {"GoRimnicu"}
-        if self.state == "Rimnicu":
-            action = {"GoSibiu"}
-        if self.state == "Urziceni":
-            action = {"GoVaslui"}
-        return action
 
-    def result(self, state, action):
-        """Return the state that results from executing the given
-        action in the given state. The action must be one of
-        self.actions(state)."""
-        if state == Arad and action == GoZerind:
-            result = Zerind
-        if state == Arad and action == GoSibiu:
-            result = Sibiu
-        if state == Arad and action == GoTimisoara:
-            result = Timisoara
-        if state == Bucharest and action == GoUrziceni:
-            result = Urziceni
-        if state == Bucharest and action == GoPitesti:
-            result = Pitesti
-        if state == Bucharest and action == GoGiurgiu:
-            result = Giurgiu
-        if state == Bucharest and action == GoFagaras:
-            result = Fagaras
-        if state == Craiova and action == GoDrobeta:
-            result = Drobeta
-        if state == Craiova and action == GoRimnicu:
-            result = Rimnicu
-        if state == Craiova and action == GoPitesti:
-            result = Pitesti
-        if state == Drobeta and action == GoMehadia:
-            result = Mehadia
-        if state == Eforie and action == GoHirsova:
-            result = Hirsova
-        if state == Fagaras and action == GoSibiu:
-            result = Sibiu
-        if state == Hirsova and action == GoUrziceni:
-            result = Urziceni
-        if state == Iasi and action == GoVaslui:
-            result = Vaslui
-        if state == Iasi and action == GoNeamti:
-            result = Neamti
-        if state == Lugoj and action == GoTimisoara:
-            result = Timisoara
-        if state == Lugoj and action == GoMehadia:
-            result = Mehadia
-        if state == Oradea and action == GoZerind:
-            result = Zerind
-        if state == Oradea and action == GoSibiu:
-            result = Sibiu
-        if state == Pitesti and action == GoRimnicu:
-            result = Rimnicu
-        if state == Rimnicu and action == GoSibiu:
-            result = Sibiu
-        if state == Urziceni and action == GoVaslui:
-            result = Vaslui
 
-        return result
+
+
+    # def actions(self, state):
+    #     """Return the actions that can be executed in the given
+    #     state. The result would typically be a list, but if there are
+    #     many actions, consider yielding them one at a time in an
+    #     iterator, rather than building them all at once."""
+    #     if self.state == "Arad":
+    #         action = ["GoZerind", "GoSibiu", "GoTimisoara"]
+    #     if self.state == "Bucharest":
+    #         action = ["GoUrziceni", "GoPitesti", "GoGiurgiu", "GoFagaras"]
+    #     if self.state == "Craiova":
+    #         action = ["GoDrobeta", "GoRimnicu", "GoPitesti"]
+    #     if self.state == "Drobeta":
+    #         action = ["GoMehadia"]
+    #     if self.state == "Eforie":
+    #         action = ["GoHirsova"]
+    #     if self.state == "Fagaras":
+    #         action = ["GoSibiu"]
+    #     if self.state == "Hirsova":
+    #         action = ["GoUrziceni"]
+    #     if self.state == "Iasi":
+    #         action = ["GoVaslui", "GoNeamti"]
+    #     if self.state == "Lugoj":
+    #         action = ["GoTimisoara", "GoMehadia"]
+    #     if self.state == "Oradea":
+    #         action = ["GoZerind", "GoSibiu"]
+    #     if self.state == "Pitesti":
+    #         action = ["GoRimnicu"]
+    #     if self.state == "Rimnicu":
+    #         action = ["GoSibiu"]
+    #     if self.state == "Urziceni":
+    #         action = ["GoVaslui"]
+    #     return action
+
+    # def result(self, state, action):
+    #     """Return the state that results from executing the given
+    #     action in the given state. The action must be one of
+    #     self.actions(state)."""
+    #     if state == "Arad" and action == "GoZerind":
+    #         result = "Zerind"
+    #     if state == "Arad" and action == "GoSibiu":
+    #         result = "Sibiu"
+    #     if state == "Arad" and action == "GoTimisoara":
+    #         result = "Timisoara"
+    #     if state == "Bucharest" and action == "GoUrziceni":
+    #         result = "Urziceni"
+    #     if state == "Bucharest" and action == "GoPitesti":
+    #         result = 'Pitesti'
+    #     if state == "Bucharest" and action == "GoGiurgiu":
+    #         result = "Giurgiu"
+    #     if state == "Bucharest" and action == "GoFagaras":
+    #         result = "Fagaras"
+    #     if state == "Craiova" and action == "GoDrobeta":
+    #         result = "Drobeta"
+    #     if state == "Craiova" and action == "GoRimnicu":
+    #         result = "Rimnicu"
+    #     if state == "Craiova" and action == "GoPitesti":
+    #         result = "Pitesti"
+    #     if state == "Drobeta" and action == "GoMehadia":
+    #         result = "Mehadia"
+    #     if state == "Eforie" and action == "GoHirsova":
+    #         result = "Hirsova"
+    #     if state == "Fagaras" and action == "GoSibiu":
+    #         result = "Sibiu"
+    #     if state == "Hirsova" and action == "GoUrziceni":
+    #         result = "Urziceni"
+    #     if state == "Iasi" and action == "GoVaslui":
+    #         result = "Vaslui"
+    #     if state == "Iasi" and action == "GoNeamti":
+    #         result = "Neamti"
+    #     if state == "Lugoj" and action == "GoTimisoara":
+    #         result = "Timisoara"
+    #     if state == "Lugoj" and action == "GoMehadia":
+    #         result = "Mehadia"
+    #     if state == "Oradea" and action == "GoZerind":
+    #         result = "Zerind"
+    #     if state == "Oradea" and action == "GoSibiu":
+    #         result = "Sibiu"
+    #     if state == "Pitesti" and action == "GoRimnicu":
+    #         result = "Rimnicu"
+    #     if state == "Rimnicu" and action == "GoSibiu":
+    #         result = "Sibiu"
+    #     if state == "Urziceni" and action == "GoVaslui":
+    #         result = "Vaslui"
+    #
+    #     return result
 
     def goal_test(self, state):
         """Return True if the state is a goal. The default method compares the
@@ -313,6 +317,12 @@ class Node:
             node = node.parent
         return list(reversed(path_back))
 
+    def path_actions(self, node):
+        # "The sequence of actions to get to this state."
+        if node.parent is None:
+            return []
+        return Node.path_actions(node.parent) + [node.action]
+
     # We want for a queue of nodes in breadth_first_graph_search or
     # astar_search to have no duplicated states, so we treat nodes
     # with the same state as equal. [Problem: this may not be what you
@@ -330,6 +340,43 @@ class Node:
 
 
 # ______________________________________________________________________________
+class GraphProblem(Problem):
+    """The problem of searching a graph from one node to another."""
+
+    def __init__(self, initial, goal, graph):
+        super().__init__(initial, goal)
+        self.graph = graph
+
+    def actions(self, A):
+        """The actions at a graph node are just its neighbors."""
+        return list(self.graph.get(A).keys())
+
+    def result(self, state, action):
+        """The result of going to a neighbor is just that neighbor."""
+        return action
+
+    def path_cost(self, cost_so_far, A, action, B):
+        return cost_so_far + (self.graph.get(A, B) or np.inf)
+
+    def find_min_edge(self):
+        """Find minimum value of edges."""
+        m = np.inf
+        for d in self.graph.graph_dict.values():
+            local_min = min(d.values())
+            m = min(m, local_min)
+
+        return m
+
+    def h(self, node):
+        """h function is straight-line distance from a node's state to goal."""
+        locs = getattr(self.graph, 'locations', None)
+        if locs:
+            if type(node) is str:
+                return int(distance(locs[node], locs[self.goal]))
+
+            return int(distance(locs[node.state], locs[self.goal]))
+        else:
+            return np.inf
 
 # ______________________________________________________________________________
 
@@ -369,6 +416,8 @@ class SimpleProblemSolvingAgentProgram:
     def formulate_problem(self, state, goal):
         problem = Problem(state, goal)
         return problem
+
+    #def h =
 
     # ______________________________________________________________________________
     def best_first_graph_search(self, problem, f, display=False):
@@ -411,6 +460,6 @@ class SimpleProblemSolvingAgentProgram:
         You need to specify the h function when you call astar_search, or
         else in your Problem subclass."""
         h = memoize(h or problem.h, 'h')
-        return best_first_graph_search(problem, lambda n: n.path_cost + h(n), display)
+        return SimpleProblemSolvingAgentProgram.best_first_graph_search(problem, lambda n: n.path_cost + h(n), display)
 
 # ______________________________________________________________________________

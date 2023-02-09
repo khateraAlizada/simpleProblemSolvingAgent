@@ -1,9 +1,40 @@
-from SimpleProblemSolvingAgent import SimpleProblemSolvingAgentProgram
-def main():
-    file_path = input("Enter the map file location: ")
+from SimpleProblemSolvingAgent import SimpleProblemSolvingAgentProgram, Problem
+import json
 
-    with open(file_path, "r") as file:
-        map = file.read()
+def main():
+    #  file_path = input("Enter the map file location: ")
+    # / Users / khatera / Downloads / cs534 / gp1534 / simpleProblemSolvingAgent / romania_map.txt
+    # with open(file_path, "r") as file:
+    #     map = file.read()
+    # / Users / khatera / Downloads / cs534 / gp1534 / simpleProblemSolvingAgent / romania_map.json
+    while True:
+        file_path = input("Enter the map file location\n>")
+        try:
+            with open(file_path, "r") as f:
+                state = json.loads(f.read())
+                break
+        except FileNotFoundError:
+            print("Could not find the file")
+    agent = SimpleProblemSolvingAgentProgram(state)
+    while True:
+        start = input("Enter starting city.\n>").title()
+        if start not in state["locations"]:
+            print("Could not find the city on the map, start again..")
+            continue
+        end = input("Enter starting city.\n>").title()
+        if end not in state["locations"]:
+            print("Could not find the city on the map, start again..")
+            continue
+        if start == end:
+            print("Start and end cities are the same, start again..")
+            continue
+
+
+
+
+
+
+
 
     # romania_map = {}
 
@@ -75,18 +106,25 @@ def main():
                'GoGiurgiu', 'GoFagaras', 'GoDrobeta', 'GoRimnicu', 'GoMehadia',
                'GoHirsova', 'GoVaslui', 'GoNeamti']
 
+    seq = []
+
 
     # User input for start and end cities
     initial_state = input("Enter the start city: ")
     end_city = input("Enter the end city: ")
 
     # Create a SPSA object
-    agent = SimpleProblemSolvingAgentProgram(initial_state, actions)
+    agent = SimpleProblemSolvingAgentProgram(initial_state)
     print(agent)
 
+    problem = Problem(initial_state, end_city)
+
+
     # Perform GBFS and A* searches
-    gbfs_result = greedy_best_first_graph_search(agent.romania_map, start_city, end_city)
-    astar_result = astar_search(agent.romania_map, initial_state, end_city)
+    # best_first_graph_search(self, problem, f, display=False):
+    # def astar_search(self, problem, h=None, display=False):
+    gbfs_result = agent.greedy_best_first_graph_search(problem)
+    astar_result = agent.astar_search(agent.romania_map, initial_state, end_city)
 
     # Output results for GBFS
     print("Search Method: Greedy Best-First Search")
