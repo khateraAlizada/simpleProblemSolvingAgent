@@ -63,7 +63,7 @@ class SimpleProblemSolvingAgent:
                 elif search_type == "A* Search":
                     weight = self.straight_line_heuristic(self.start, neighbor) + self.straight_line_heuristic(neighbor, self.goal)  # g(n) + h(n)
 
-                heapq.heappush(paths_list, (weight, neighbor, path + [neighbor]))
+                heapq.heappush(paths_list, (weight, neighbor, path + [neighbor]))  # Push updated path back into heap
         return None
 
     """Calculates the given path's distance
