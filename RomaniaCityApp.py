@@ -1,6 +1,7 @@
 from SimpleProblemSolvingAgent import SimpleProblemSolvingAgentProgram, Problem
 import json
 
+
 def main():
     #  file_path = input("Enter the map file location: ")
     # / Users / khatera / Downloads / cs534 / gp1534 / simpleProblemSolvingAgent / romania_map.txt
@@ -29,17 +30,9 @@ def main():
             print("Start and end cities are the same, start again..")
             continue
 
-
-
-
-
-
-
-
     # romania_map = {}
 
     print("Romania map: " + "\n" + map)
-
 
     # import importlib.util
     # import sys
@@ -69,16 +62,14 @@ def main():
     #     else:
     #         break
     # while True:
-        # Step b and c
-        # ...
+    # Step b and c
+    # ...
 
-        # Ask the user if they want to repeat
-        # repeat = input("Do you want to find the best path between two cities again? (yes/no)")
-        # if repeat.lower() == "no":
-        #     print("Thank you for using our app.")
-        #     break
-
-
+    # Ask the user if they want to repeat
+    # repeat = input("Do you want to find the best path between two cities again? (yes/no)")
+    # if repeat.lower() == "no":
+    #     print("Thank you for using our app.")
+    #     break
 
     # /Users/khatera/Downloads/cs534/gp1534/simpleProblemSolvingAgent/romania_map.txt
     seq = {
@@ -108,7 +99,6 @@ def main():
 
     seq = []
 
-
     # User input for start and end cities
     initial_state = input("Enter the start city: ")
     end_city = input("Enter the end city: ")
@@ -118,7 +108,6 @@ def main():
     print(agent)
 
     problem = Problem(initial_state, end_city)
-
 
     # Perform GBFS and A* searches
     # best_first_graph_search(self, problem, f, display=False):
