@@ -48,16 +48,16 @@ class SimpleProblemSolvingAgent:
         visited = set()  # Keep track of visited cities
 
         while paths_list:
-            (weight, node, path) = heapq.heappop(paths_list)  # Get the lowest weighted path
+            (weight, city, path) = heapq.heappop(paths_list)  # Get the lowest weighted path
 
-            if node in visited:  # Already visited
+            if city in visited:  # Already visited
                 continue
-            visited.add(node)  # New city
-            if node == self.goal:  # Destination city has been reached
+            visited.add(city)  # New city
+            if city == self.goal:  # Destination city has been reached
                 print("Total Cost is: " + str(self.calculate_path_cost(path)))
                 print_path(path)
                 return
-            for neighbor in self.map_Graph.get(node).keys():
+            for neighbor in self.map_Graph.get(city).keys():
                 if search_type == "Greedy Best First Search":
                     weight = self.straight_line_heuristic(neighbor, self.goal)  # h(n)
                 elif search_type == "A* Search":
