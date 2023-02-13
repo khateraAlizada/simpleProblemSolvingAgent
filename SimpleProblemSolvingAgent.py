@@ -45,22 +45,22 @@ class SimpleProblemSolvingAgent:
     """
     def search(self, search_type):
         paths_list = [(0, self.start, [self.start])]  # Keep track of paths
-        visited = set()  # Keep track of visited cities
+        visited_cities = set()  # Keep track of visited cities
 
         while paths_list:
-            (weight, city, path) = heapq.heappop(paths_list)  # Get the lowest weighted path
+            (weight, currCity, path) = heapq.heappop(paths_list)  # Get the lowest weighted path
 
-            if city not in visited:  # New city
-                visited.add(city)
+            if currCity not in visited_cities:  # New city
+                visited_cities.add(currCity)
             else:   # Already visited
                 continue
 
-            if city == self.goal:  # Destination city has been reached
+            if currCity == self.goal:  # Destination city has been reached
                 print("Total Cost is: " + str(self.calculate_path_cost(path)))
                 print_path(path)
                 return
 
-            for neighbor in self.map_Graph.get(city).keys():
+            for neighbor in self.map_Graph.get(currCity).keys():
                 if search_type == "Greedy Best First Search":
                     weight = self.straight_line_heuristic(neighbor, self.goal)  # h(n)
                 elif search_type == "A* Search":
