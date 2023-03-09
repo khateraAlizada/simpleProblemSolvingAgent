@@ -25,27 +25,26 @@ class SimpleProblemSolvingAgent:
         self.start = start
         self.goal = goal
 
-    """Calculates the straight-line distance from the start city to the goal city.
+    """Wrapper method for calling a specified traversal algorithm.
     
-    :param start: The given start city
-    :param goal: The given destination city
-    :returns: The straight-line distance between the given cities.
-    """
-    def straight_line_heuristic(self, start, goal):
-        x1 = self.map_locations[start][0]
-        y1 = self.map_locations[start][1]
-        x2 = self.map_locations[goal][0]
-        y2 = self.map_locations[goal][1]
-        return math.sqrt(math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2))  # Pythagorean Theorem
-
-    """Pathfinding algorithm using both Greedy Best-First Search and A* Search.
-    
-    Both of these algorithms utilize the straight line distance heuristic between a given city and the goal city.
-    
-    :param search_type: The algorithm to be performed
-    :returns: An array containing the solution path
+    :param search_type: The algorithm to use
     """
     def search(self, search_type):
+        if search_type == "Greedy Best First Search" or search_type == "A* Search":
+            self.heap_searches(search_type)
+        elif search_type == "Hill-Climbing":
+            self.hill_climbing_search()
+        elif search_type == "Simulated Annealing":
+            self.simulated_annealing_search()
+
+    """Can perform both Greedy Best First Search and A* Search.
+    
+    Both of these algorithms utilize a heap to keep track of the 'optimal' path.
+    
+    :param search_type: The algorithm to be performed
+    :returns: void
+    """
+    def heap_searches(self, search_type):
         paths_list = [(0, self.start, [self.start])]  # Keep track of paths
         visited_cities = set()  # Keep track of visited cities
 
@@ -70,12 +69,12 @@ class SimpleProblemSolvingAgent:
                 heapq.heappush(paths_list, (weight, neighbor, path + [neighbor]))  # Push updated path back into heap
         return None
 
-    """Performs the Hill-Climbing algorithm in order to find a solution path.
+    """Performs the Hill-Climbing search in order to find a solution path.
     
     This variant of the Hill-Climbing algorithm utilizes a greedy local search, where it will move to the neighbor that
     has the shortest straight line distance to the goal city. 
 
-    :returns: An array containing the solution path.
+    :returns: void
     """
     def hill_climbing_search(self):
         path = [self.start]  # Keep track of path
@@ -107,6 +106,28 @@ class SimpleProblemSolvingAgent:
         print("Total Cost is: " + str(self.calculate_path_cost(path)))
         print_path(path)
         return None
+
+    """Performs the Simulated Annealing search in order to find a solution path.
+    
+    :returns: void
+    """
+    def simulated_annealing_search(self):
+        path = [self.start]  # Keep track of path
+        print("Not implemented yet!")
+        return None
+
+    """Calculates the straight-line distance from the start city to the goal city.
+
+    :param start: The given start city
+    :param goal: The given destination city
+    :returns: The straight-line distance between the given cities.
+    """
+    def straight_line_heuristic(self, start, goal):
+        x1 = self.map_locations[start][0]
+        y1 = self.map_locations[start][1]
+        x2 = self.map_locations[goal][0]
+        y2 = self.map_locations[goal][1]
+        return math.sqrt(math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2))  # Pythagorean Theorem
 
     """Calculates the given path's distance
     

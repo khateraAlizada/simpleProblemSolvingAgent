@@ -28,10 +28,9 @@ def main():
             continue
 
         romania_graph = state["romaniaMap"]
-        romania_map_locations = state["locations"]
-        # print("romania graph: ")
-        # print(romania_graph)
         undirected_romania_map = Graph.UndirectedGraph(romania_graph)
+
+        romania_map_locations = state["locations"]
 
         print("\nCalculating path from " + start + " to " + goal + ".\n")
         solver = SimpleProblemSolvingAgent(undirected_romania_map, romania_map_locations, start, goal)
@@ -40,9 +39,12 @@ def main():
         print("\nUtilizing A* Search:")
         solver.search("A* Search")
         print("\nUtilizing Hill-Climbing Search")
-        solver.hill_climbing_search()
+        solver.search("Hill-Climbing")
+        print("\nUtilizing Simulated Annealing Search")
+        solver.search("Simulated Annealing")
 
-        response = input("Would you like to calculate a new path? ('Yes' or 'No').\n> ")
+        response = input("Would you like to calculate a new path? ('Yes' or 'No').\n> ").title()
+        print(response)
 
     print("Thank you for using our app!")
 
