@@ -39,6 +39,8 @@ def main():
         solver.search("Greedy Best First Search")
         print("\nUtilizing A* Search:")
         solver.search("A* Search")
+        print("\nUtilizing Hill-Climbing Search")
+        solver.hill_climbing_search()
 
         response = input("Would you like to calculate a new path? ('Yes' or 'No').\n> ")
 
