@@ -1,5 +1,7 @@
 import math
 import heapq
+import random
+import sys
 
 
 def print_path(path):  # Custom path output formatting
@@ -57,15 +59,15 @@ class SimpleProblemSolvingAgent:
                 continue
 
             if currCity == self.goal:  # Destination city has been reached
-                print("Total Cost is: " + str(self.calculate_path_cost(path)))
-                print_path(path)
+                self.print_results(path)
                 return
 
             for neighbor in self.map_Graph.get(currCity).keys():  # Get the current city's neighbors
                 if search_type == "Greedy Best First Search":
                     weight = self.straight_line_heuristic(neighbor, self.goal)  # h(n)
                 elif search_type == "A* Search":
-                    weight = self.straight_line_heuristic(self.start, neighbor) + self.straight_line_heuristic(neighbor, self.goal)  # g(n) + h(n)
+                    weight = self.straight_line_heuristic(self.start, neighbor) + self.straight_line_heuristic(neighbor,
+                                                                                                               self.goal)  # g(n) + h(n)
                 heapq.heappush(paths_list, (weight, neighbor, path + [neighbor]))  # Push updated path back into heap
         return None
 
@@ -89,6 +91,7 @@ class SimpleProblemSolvingAgent:
 
             best_neighbor = None
 
+            # Find the closest neighbor to the destination city
             for neighbor in neighbors:
                 neighbor_cost = self.straight_line_heuristic(neighbor, self.goal)
 
@@ -103,9 +106,16 @@ class SimpleProblemSolvingAgent:
             path += [best_neighbor]
             currCity = best_neighbor  # Set the neighbor as the next city to be expanded upon
 
-        print("Total Cost is: " + str(self.calculate_path_cost(path)))
-        print_path(path)
+        self.print_results(path)
         return None
+
+    def exp_schedule(self, k=20, lam=0.005, limit=100):
+        """One possible schedule function for simulated annealing"""
+        return lambda t: (k * math.exp(-lam * t) if t < limit else 0)
+
+    def probability(self, p):  # TODO: Come up with a better name
+        """Return true with probability p."""
+        return p > random.uniform(0.0, 1.0)
 
     """Performs the Simulated Annealing search in order to find a solution path.
     
@@ -113,7 +123,28 @@ class SimpleProblemSolvingAgent:
     """
     def simulated_annealing_search(self):
         path = [self.start]  # Keep track of path
-        print("Not implemented yet!!")
+        currCity = self.start
+
+        for t in range(sys.maxsize):  # TODO: Find out how big sys.maxsize is
+            T = self.exp_schedule(t)  # TODO: Insure this function works
+
+            if T == 0:
+                return path
+
+            neighbors = list(self.map_Graph.get(currCity).keys())  # Get the current city's neighbors as a list
+
+            if not neighbors:
+                break
+
+            nextCity = random.choice(neighbors)
+
+            delta_e = self.straight_line_heuristic(nextCity, self.goal) - self.straight_line_heuristic(currCity, self.goal)
+
+            if delta_e > 0 or self.probability(math.exp(delta_e / T(t))):
+                path += [nextCity]
+                currCity = nextCity
+
+        self.print_results(path)
         return None
 
     """Calculates the straight-line distance from the start city to the goal city.
@@ -137,6 +168,12 @@ class SimpleProblemSolvingAgent:
     def calculate_path_cost(self, path):
         cost = 0
 
-        for i in range(0, len(path)-1):
-            cost += self.map_Graph.get(path[i], path[i+1])
+        for i in range(0, len(path) - 1):
+            cost += self.map_Graph.get(path[i], path[i + 1])
         return cost
+
+    """Helper method for printing the results of a search traversal algorithm
+    """
+    def print_results(self, path):
+        print("Total Cost is: " + str(self.calculate_path_cost(path)))
+        print_path(path)
