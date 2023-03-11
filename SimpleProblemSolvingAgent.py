@@ -66,8 +66,7 @@ class SimpleProblemSolvingAgent:
                 if search_type == "Greedy Best First Search":
                     weight = self.straight_line_heuristic(neighbor, self.goal)  # h(n)
                 elif search_type == "A* Search":
-                    weight = self.straight_line_heuristic(self.start, neighbor) + self.straight_line_heuristic(neighbor,
-                                                                                                               self.goal)  # g(n) + h(n)
+                    weight = self.straight_line_heuristic(self.start, neighbor) + self.straight_line_heuristic(neighbor, self.goal)  # g(n) + h(n)
                 heapq.heappush(paths_list, (weight, neighbor, path + [neighbor]))  # Push updated path back into heap
         return None
 
@@ -109,13 +108,34 @@ class SimpleProblemSolvingAgent:
         self.print_results(path)
         return None
 
-    def exp_schedule(self, k=20, lam=0.005, limit=100):
-        """One possible schedule function for simulated annealing"""
-        return lambda t: (k * math.exp(-lam * t) if t < limit else 0)
+    """Exponential Multiplicative Cooling scheduling variant helper method for the Simulated Annealing algorithm.
+    
+    Stopped using this because 'math.exp(delta_e / T)' in probability() kept getting OverFlow errors.
+    
+    :param init_temp: The initial temperature
+    :param cooling_rate: The rate at which the temperature is cooled
+    :returns: The temperature after t iterations has passed
+    """
+    def exp_schedule(self, init_temp=1000, cooling_rate=0.95):
+        return lambda t: init_temp * (cooling_rate ** t)
 
-    def probability(self, p):  # TODO: Come up with a better name
-        """Return true with probability p."""
-        return p > random.uniform(0.0, 1.0)
+    """Logarithmical Multiplicative Cooling scheduling variant helper method for the Simulated Annealing algorithm.
+
+    :param init_temp: The initial temperature
+    :param cooling_rate: The rate at which the temperature is cooled
+    :returns: The temperature after t iterations has passed
+    """
+    def log_schedule(self, init_temp=10000, cooling_rate=1000):
+        return lambda t: init_temp / (1 + (cooling_rate * math.log(1 + t)))
+
+    """Probability helper method for the Simulated Annealing algorithm.
+    
+    :param delta_e: The difference in cost between the chosen neighboring city and the current city
+    :param T: The temperature in the given iteration
+    :returns: a boolean representing the probability of true
+    """
+    def probability(self, delta_e, T):
+        return math.exp(delta_e / T) > random.uniform(0.0, 1.0)
 
     """Performs the Simulated Annealing search in order to find a solution path.
     
@@ -125,11 +145,14 @@ class SimpleProblemSolvingAgent:
         path = [self.start]  # Keep track of path
         currCity = self.start
 
-        for t in range(sys.maxsize):  # TODO: Find out how big sys.maxsize is
-            T = self.exp_schedule(t)  # TODO: Insure this function works
+        for t in range(sys.maxsize):
+            T = self.log_schedule()(t)
 
             if T == 0:
-                return path
+                break
+
+            if currCity == self.goal:  # Destination city has been reached
+                break
 
             neighbors = list(self.map_Graph.get(currCity).keys())  # Get the current city's neighbors as a list
 
@@ -138,27 +161,44 @@ class SimpleProblemSolvingAgent:
 
             nextCity = random.choice(neighbors)
 
-            delta_e = self.straight_line_heuristic(nextCity, self.goal) - self.straight_line_heuristic(currCity, self.goal)
+            delta_e = self.manhattan_heuristic(nextCity, self.goal) - self.manhattan_heuristic(currCity, self.goal)
 
-            if delta_e > 0 or self.probability(math.exp(delta_e / T(t))):
+            if delta_e < 0 or self.probability(delta_e, T):
                 path += [nextCity]
                 currCity = nextCity
 
         self.print_results(path)
         return None
 
-    """Calculates the straight-line distance from the start city to the goal city.
+    """Calculates the straight-line distance from the current city to the goal city.
 
-    :param start: The given start city
+    :param currCity: The given start city
     :param goal: The given destination city
     :returns: The straight-line distance between the given cities.
     """
-    def straight_line_heuristic(self, start, goal):
-        x1 = self.map_locations[start][0]
-        y1 = self.map_locations[start][1]
+    def straight_line_heuristic(self, currCity, goal):
+        x1 = self.map_locations[currCity][0]
+        y1 = self.map_locations[currCity][1]
         x2 = self.map_locations[goal][0]
         y2 = self.map_locations[goal][1]
         return math.sqrt(math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2))  # Pythagorean Theorem
+
+    """Calculates the manhattan distance from the current city to the goal city.
+    
+    This heuristic is mainly implemented for the Simulated Annealing algorithm, as it seems to provide better results
+    as compared to the straight-line heuristic. This could be due to it better representing movement in a grid-like
+    environment.
+    
+    :param currCity: The given start city
+    :param goal: The given destination city
+    :returns: The manhattan distance between the given cities.
+    """
+    def manhattan_heuristic(self, currCity, goal):
+        x1 = self.map_locations[currCity][0]
+        y1 = self.map_locations[currCity][1]
+        x2 = self.map_locations[goal][0]
+        y2 = self.map_locations[goal][1]
+        return abs(x2 - x1) + abs(y2 - y1)
 
     """Calculates the given path's distance
     

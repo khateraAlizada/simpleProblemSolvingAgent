@@ -7,6 +7,7 @@ def main():
     response = ""
     while True:
         file_path = input("Enter the map file location\n> ")  # Local path to map file is 'romania_map.json'
+
         try:
             with open(file_path, "r") as f:
                 state = json.loads(f.read())
