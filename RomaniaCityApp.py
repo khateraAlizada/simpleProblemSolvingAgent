@@ -7,6 +7,7 @@ def main():
     response = ""
     while True:
         file_path = input("Enter the map file location\n> ")  # Local path to map file is 'romania_map.json'
+
         try:
             with open(file_path, "r") as f:
                 state = json.loads(f.read())
@@ -28,10 +29,9 @@ def main():
             continue
 
         romania_graph = state["romaniaMap"]
-        romania_map_locations = state["locations"]
-        # print("romania graph: ")
-        # print(romania_graph)
         undirected_romania_map = Graph.UndirectedGraph(romania_graph)
+
+        romania_map_locations = state["locations"]
 
         print("\nCalculating path from " + start + " to " + goal + ".\n")
         solver = SimpleProblemSolvingAgent(undirected_romania_map, romania_map_locations, start, goal)
@@ -39,8 +39,13 @@ def main():
         solver.search("Greedy Best First Search")
         print("\nUtilizing A* Search:")
         solver.search("A* Search")
+        print("\nUtilizing Hill-Climbing Search")
+        solver.search("Hill-Climbing")
+        print("\nUtilizing Simulated Annealing Search")
+        solver.search("Simulated Annealing")
 
-        response = input("Would you like to calculate a new path? ('Yes' or 'No').\n> ")
+        response = input("Would you like to calculate a new path? ('Yes' or 'No').\n> ").title()
+        print(response)
 
     print("Thank you for using our app!")
 
